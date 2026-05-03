@@ -7,7 +7,10 @@ import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
+import { useAppContext } from '@/src/context/AppContext';
+
 export default function SettingsScreen() {
+  const { themePreference, setThemePreference } = useAppContext();
   const colorScheme = useColorScheme() ?? 'light';
   const colors = Colors[colorScheme];
 
@@ -44,6 +47,34 @@ export default function SettingsScreen() {
               trackColor={{ false: '#767577', true: colors.primary + '80' }}
               thumbColor={location ? colors.primary : '#f4f3f4'}
             />
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <ThemedText type="defaultSemiBold" style={styles.sectionTitle}>Apariencia</ThemedText>
+          <View style={[styles.themeContainer, { backgroundColor: colors.surface, borderColor: colors.secondary + '20' }]}>
+            {(['light', 'dark', 'system'] as const).map((mode) => (
+              <Pressable
+                key={mode}
+                style={[
+                  styles.themeOption,
+                  themePreference === mode && { backgroundColor: colors.primary }
+                ]}
+                onPress={() => setThemePreference(mode)}
+              >
+                <Ionicons 
+                  name={mode === 'light' ? 'sunny' : mode === 'dark' ? 'moon' : 'settings'} 
+                  size={18} 
+                  color={themePreference === mode ? 'white' : colors.primary} 
+                />
+                <ThemedText style={[
+                  styles.themeOptionText,
+                  themePreference === mode && { color: 'white', fontWeight: 'bold' }
+                ]}>
+                  {mode === 'light' ? 'Claro' : mode === 'dark' ? 'Oscuro' : 'Sistema'}
+                </ThemedText>
+              </Pressable>
+            ))}
           </View>
         </View>
 
@@ -117,5 +148,24 @@ const styles = StyleSheet.create({
   logoutText: {
     color: '#ff4444',
     fontWeight: 'bold',
+  },
+  themeContainer: {
+    flexDirection: 'row',
+    borderRadius: 15,
+    padding: 5,
+    borderWidth: 1,
+    marginTop: 5,
+  },
+  themeOption: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    borderRadius: 10,
+    gap: 6,
+  },
+  themeOptionText: {
+    fontSize: 13,
   },
 });

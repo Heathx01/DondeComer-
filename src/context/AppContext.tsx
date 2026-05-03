@@ -8,6 +8,8 @@ interface AppContextType {
   searchHistory: string[];
   addToHistory: (query: string) => void;
   clearHistory: () => void;
+  themePreference: 'light' | 'dark' | 'system';
+  setThemePreference: (theme: 'light' | 'dark' | 'system') => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -15,6 +17,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const [themePreference, setThemePreferenceState] = useState<'light' | 'dark' | 'system'>('system');
 
   useEffect(() => {
     // Load data from AsyncStorage on mount
@@ -22,8 +25,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       try {
         const savedFavorites = await AsyncStorage.getItem('favorites');
         const savedHistory = await AsyncStorage.getItem('searchHistory');
+        const savedTheme = await AsyncStorage.getItem('themePreference');
+        
         if (savedFavorites) setFavorites(JSON.parse(savedFavorites));
         if (savedHistory) setSearchHistory(JSON.parse(savedHistory));
+        if (savedTheme) setThemePreferenceState(savedTheme as any);
       } catch (e) {
         console.error('Error loading app data', e);
       }
@@ -55,6 +61,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     await AsyncStorage.removeItem('searchHistory');
   };
 
+  const setThemePreference = async (theme: 'light' | 'dark' | 'system') => {
+    setThemePreferenceState(theme);
+    await AsyncStorage.setItem('themePreference', theme);
+  };
+
   return (
     <AppContext.Provider value={{ 
       favorites, 
@@ -62,7 +73,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       isFavorite, 
       searchHistory, 
       addToHistory,
-      clearHistory 
+      clearHistory,
+      themePreference,
+      setThemePreference
     }}>
       {children}
     </AppContext.Provider>
