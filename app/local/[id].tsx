@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View, Pressable, TextInput, Alert, Linking } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
-import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
@@ -41,7 +40,9 @@ export default function LocalDetailScreen() {
   };
 
   const handleMap = () => {
-    const url = `https://www.google.com/maps/search/?api=1&query=${local.coordinates.latitude},${local.coordinates.longitude}`;
+    // Usamos 'dir' en lugar de 'search' para que Google Maps inicie la navegación
+    // y muestre la ubicación del usuario como punto de origen por defecto.
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${local.coordinates.latitude},${local.coordinates.longitude}&travelmode=driving`;
     Linking.openURL(url);
   };
 
@@ -194,10 +195,6 @@ export default function LocalDetailScreen() {
           <Ionicons name="navigate" size={24} color="white" />
         </Pressable>
       </View>
-    </ThemedView>
-  );
-}
-      </ScrollView>
     </ThemedView>
   );
 }

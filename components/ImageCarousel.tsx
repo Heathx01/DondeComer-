@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
-import { ThemedView } from './themed-view';
 
 const { width } = Dimensions.get('window');
 

@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import * as Location from 'expo-location';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -13,6 +13,7 @@ import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { LocalsController } from '@/src/controllers/LocalsController';
 import { Local } from '@/src/models/Local';
+import { calculateDistance } from '@/src/services/LocationService';
 
 const DISTANCE_OPTIONS = [1, 2, 5, 10, 20];
 
@@ -21,9 +22,10 @@ export default function ExploreScreen() {
   const insets = useSafeAreaInsets();
   const colors = Colors[colorScheme ?? 'light'];
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const { q, nearMe } = useLocalSearchParams();
+  const [searchQuery, setSearchQuery] = useState((q as string) || '');
   const [results, setResults] = useState<Local[]>([]);
-  const [activeDistance, setActiveDistance] = useState<number | null>(null);
+  const [activeDistance, setActiveDistance] = useState<number | null>(nearMe === 'true' ? 5 : null);
   const [onlyOpen, setOnlyOpen] = useState(false);
   const [minRating, setMinRating] = useState<number | null>(null);
   const [userLocation, setUserLocation] = useState<Location.LocationObject | null>(null);
@@ -245,17 +247,7 @@ export default function ExploreScreen() {
 }
 
 // Utility for display
-function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * (Math.PI / 180);
-  const dLon = (lon2 - lon1) * (Math.PI / 180);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
+
 
 const styles = StyleSheet.create({
   container: {

@@ -1,0 +1,71 @@
+GUÍA DE FUNCIONALIDAD: DONDE COMER+
+
+Donde Comer+ es una aplicación móvil diseñada para conectar a los comensales con los mejores locales de comida cercanos, ofreciendo una experiencia premium de descubrimiento y gestión de locales.
+
+1. PANTALLA DE INICIO (HOME)
+Es el punto de entrada principal donde los usuarios pueden descubrir opciones rápidamente.
+
+Elementos y Funcionalidad:
+* Encabezado Dinámico: Saludo personalizado y acceso rápido al panel de dueño.
+* Botón "Dueño": Ubicado en la esquina superior derecha, permite a los propietarios de locales registrarse o gestionar su negocio.
+* Buscador Inteligente: Barra de búsqueda para encontrar platos o nombres de locales específicos.
+    - Historial de Búsqueda: Chips horizontales con las últimas búsquedas realizadas para un acceso rápido.
+* Botón "Buscar locales cerca de mí": Acción rápida que solicita permisos de ubicación y muestra resultados en un radio de 5km.
+* Carrusel de Promocionados: Sección "Destacados de hoy" que muestra locales premium con imágenes de alta calidad y un distintivo de "Promocionado".
+* Categorías Populares: Lista horizontal con iconos interactivos (Pizza, Burger, Sushi, Tacos, Pasta) que filtran automáticamente la búsqueda.
+* Recomendados para ti: Lista vertical de locales destacados que incluye:
+    - Imagen de portada.
+    - Calificación (estrellas).
+    - Distancia calculada en tiempo real desde la ubicación del usuario.
+    - Dirección y categorías.
+
+2. PANTALLA DE EXPLORACIÓN (EXPLORE)
+Herramienta avanzada para filtrar y localizar establecimientos en un mapa o lista detallada.
+
+Elementos y Funcionalidad:
+* Selector de Modo (Mapa/Lista): Botón conmutador en el encabezado para alternar entre una vista de lista tradicional y un mapa interactivo.
+* Buscador de Texto: Filtrado por nombre o tipo de cocina.
+* Filtros Rápidos:
+    - Abierto ahora: Muestra solo locales que están operando en el horario actual.
+    - 4.5+ estrellas: Filtra por los locales mejor valorados por la comunidad.
+* Filtro de Distancia: Chips para seleccionar el rango de cercanía (1km, 2km, 5km, 10km, 20km).
+* Mapa Interactivo: Visualización de marcadores de locales con posibilidad de pulsar sobre ellos para ver detalles.
+* Lista de Resultados: Tarjetas con información esencial y navegación directa al perfil del local.
+
+3. PERFIL DEL LOCAL (LOCAL DETAILS)
+Información exhaustiva y herramientas de interacción para cada establecimiento.
+
+Elementos y Funcionalidad:
+* Carrusel de Imágenes: Visualización de fotos del local y sus platillos.
+* Botón de Favoritos (Corazón): Permite guardar el local en la lista de favoritos personal.
+* Información de Estado: Etiqueta dinámica de "ABIERTO" o "CERRADO" basada en el horario actual.
+* Estadísticas: Visualización de calificación promedio y número total de reseñas.
+* Menú Sugerido: Lista de platos destacados con descripción y precio.
+* Sección de Opiniones: Historial de reseñas de otros usuarios con fecha, calificación y comentario.
+* Formulario de Reseña:
+    - Selector de calificación por estrellas.
+    - Campo de texto para comentarios.
+    - Botón de publicación con feedback háptico.
+* Botones de Acción Flotantes (FABs):
+    - Botón de Llamada: Abre directamente el marcador telefónico con el número del local.
+    - Botón de Navegación: Abre Google Maps con la ubicación exacta para iniciar la ruta.
+
+4. FLUJO DE DUEÑO (OWNER FLOW)
+Espacio dedicado para que los comerciantes gestionen su presencia en la plataforma.
+
+Registro de Local:
+* Formulario de Datos: Campos para Nombre, Descripción y Dirección.
+* Carga de Fotos: Botón interactivo para añadir imágenes representativas.
+* Publicación Directa: Envío de la información para dar de alta el local.
+
+Panel de Gestión:
+* Estadísticas de Rendimiento: Vistas totales del perfil y rating promedio.
+* Reseñas Recientes: Vista previa de los últimos comentarios recibidos para seguimiento.
+* Gestión de Menú: Acceso a la edición de la carta (disponible en futuras actualizaciones).
+
+CARACTERÍSTICAS TÉCNICAS DESTACADAS
+* Geolocalización Real: Cálculo de distancias basado en el sensor GPS del dispositivo.
+* Feedback Háptico: Vibraciones sutiles al interactuar con botones y filtros para una sensación más física.
+* Modo Oscuro/Claro: Adaptación automática a las preferencias del sistema del usuario.
+* Estado Persistente: Guardado local de favoritos e historial de búsqueda.
+* Integración con Firebase: Configurado para escalabilidad en la nube.

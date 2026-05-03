@@ -12,6 +12,12 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.dondecomer.app",
+      "config": {
+        "googleMaps": {
+          "apiKey": "REEMPLAZA_CON_TU_API_KEY"
+        }
+      },
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -42,7 +48,13 @@
     ],
     "experiments": {
       "typedRoutes": true,
-      "reactCompiler": true
+      "reactCompiler": false
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c4843dbf-6b1d-433c-91fb-9528fe930607"
+      }
     }
   }
 }

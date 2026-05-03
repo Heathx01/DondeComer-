@@ -14,6 +14,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { LocalsController } from '@/src/controllers/LocalsController';
 import { useAppContext } from '@/src/context/AppContext';
 import { SkeletonLoader } from '@/components/SkeletonLoader';
+import { calculateDistance } from '@/src/services/LocationService';
 
 const { width } = Dimensions.get('window');
 
@@ -46,6 +47,16 @@ export default function HomeScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     addToHistory(query);
     router.push({ pathname: '/explore', params: { q: query } });
+  };
+
+  const handleNearMe = async () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      return;
+    }
+    
+    router.push({ pathname: '/explore', params: { nearMe: 'true' } });
   };
 
   return (
@@ -81,6 +92,14 @@ export default function HomeScreen() {
               onSubmitEditing={() => handleSearch(searchQuery)}
             />
           </View>
+
+          <Pressable 
+            style={[styles.nearMeButton, { backgroundColor: colors.primary }]}
+            onPress={handleNearMe}
+          >
+            <Ionicons name="location" size={18} color="white" />
+            <ThemedText style={styles.nearMeButtonText}>Buscar locales cerca de mí</ThemedText>
+          </Pressable>
           
           {searchHistory.length > 0 && (
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.historyScroll}>
@@ -197,10 +216,6 @@ export default function HomeScreen() {
     </ThemedView>
   );
 }
-      </ScrollView>
-    </ThemedView>
-  );
-}
 
 function getCategoryIcon(cat: string): any {
   switch (cat) {
@@ -213,17 +228,7 @@ function getCategoryIcon(cat: string): any {
   }
 }
 
-function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * (Math.PI / 180);
-  const dLon = (lon2 - lon1) * (Math.PI / 180);
-  const a = 
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -274,6 +279,25 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     fontWeight: '500',
+  },
+  nearMeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 15,
+    marginTop: 15,
+    gap: 8,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+  nearMeButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   heroContainer: {
     height: 180,

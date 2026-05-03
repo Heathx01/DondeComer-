@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, TextInput, Pressable, Image, Alert } from 'react-native';
+import { StyleSheet, ScrollView, View, TextInput, Pressable, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import * as Haptics from 'expo-haptics';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -45,7 +46,7 @@ export default function OwnerFlowScreen() {
         </View>
 
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          <ThemedText type="subtitle">Resumen de "{form.name}"</ThemedText>
+          <ThemedText type="subtitle">Resumen de &quot;{form.name}&quot;</ThemedText>
           
           <View style={styles.statsGrid}>
             <View style={[styles.statBox, { backgroundColor: colors.surface }]}>
@@ -74,7 +75,7 @@ export default function OwnerFlowScreen() {
                   <ThemedText style={styles.starText}>5.0</ThemedText>
                 </View>
               </View>
-              <ThemedText style={styles.reviewPreview}>"Excelente atención y la comida llegó súper caliente..."</ThemedText>
+              <ThemedText style={styles.reviewPreview}>{"Excelente atención y la comida llegó súper caliente..."}</ThemedText>
             </View>
           ))}
 

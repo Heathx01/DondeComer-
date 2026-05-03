@@ -1,4 +1,5 @@
 import { Local } from '../models/Local';
+import { calculateDistance } from '../services/LocationService';
 
 // Mock data for initial development
 const MOCK_LOCALS: Local[] = [
@@ -132,28 +133,21 @@ export const LocalsController = {
     const openTime = openH * 60 + openM;
     let closeTime = closeH * 60 + closeM;
     
-    // Handle late night closing (e.g., 02:00 AM)
+    // Si el cierre es después de medianoche
     if (closeTime < openTime) {
-      closeTime += 24 * 60;
+      // Si la hora actual es antes de medianoche (por ejemplo, 22:00)
+      if (currentTime >= openTime) {
+        return true;
+      }
+      // Si la hora actual es después de medianoche (por ejemplo, 01:00)
+      if (currentTime <= closeTime) {
+        return true;
+      }
+      return false;
     }
     
     return currentTime >= openTime && currentTime <= closeTime;
   }
 };
 
-// Haversine formula to calculate distance in km
-function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371; // Radius of the earth in km
-  const dLat = deg2rad(lat2 - lat1);
-  const dLon = deg2rad(lon2 - lon1);
-  const a = 
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
 
-function deg2rad(deg: number): number {
-  return deg * (Math.PI / 180);
-}

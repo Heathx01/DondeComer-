@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Animated } from 'react-native';
-import { Colors } from '@/constants/theme';
+import { StyleSheet, Animated } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 interface SkeletonLoaderProps {
@@ -12,8 +11,7 @@ interface SkeletonLoaderProps {
 
 export const SkeletonLoader = ({ width, height, borderRadius = 8, style }: SkeletonLoaderProps) => {
   const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme];
-  const opacity = new Animated.Value(0.3);
+  const opacity = React.useRef(new Animated.Value(0.3)).current;
 
   useEffect(() => {
     Animated.loop(
@@ -30,7 +28,7 @@ export const SkeletonLoader = ({ width, height, borderRadius = 8, style }: Skele
         }),
       ])
     ).start();
-  }, []);
+  }, [opacity]);
 
   return (
     <Animated.View

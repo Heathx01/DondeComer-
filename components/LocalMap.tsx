@@ -16,7 +16,7 @@ export default function LocalMap({ colors, onBackToList }: LocalMapProps) {
     <View style={styles.webFallback}>
       <Ionicons name="map-outline" size={50} color={colors.primary} />
       <ThemedText style={styles.webFallbackText}>
-        La vista de mapa está disponible en dispositivos iOS y Android.
+        La vista de mapa interactiva está disponible en dispositivos iOS y Android.
       </ThemedText>
       <Pressable 
         style={[styles.backButton, { backgroundColor: colors.primary }]}
