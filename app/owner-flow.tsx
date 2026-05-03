@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, TextInput, Pressable, Alert } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+
+interface OwnerFormState {
+  name: string;
+  description: string;
+  address: string;
+  category: string;
+}
 
 export default function OwnerFlowScreen() {
   const colorScheme = useColorScheme() ?? 'light';
@@ -16,7 +23,7 @@ export default function OwnerFlowScreen() {
   const colors = Colors[colorScheme ?? 'light'];
 
   const [isRegistered, setIsRegistered] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<OwnerFormState>({
     name: '',
     description: '',
     address: '',
@@ -47,7 +54,7 @@ export default function OwnerFlowScreen() {
 
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <ThemedText type="subtitle">Resumen de &quot;{form.name}&quot;</ThemedText>
-          
+
           <View style={styles.statsGrid}>
             <View style={[styles.statBox, { backgroundColor: colors.surface }]}>
               <ThemedText style={styles.statValue}>1,240</ThemedText>
@@ -79,7 +86,7 @@ export default function OwnerFlowScreen() {
             </View>
           ))}
 
-          <Pressable 
+          <Pressable
             style={[styles.submitButton, { backgroundColor: colors.primary }]}
             onPress={() => Alert.alert('Próximamente', 'Esta función estará disponible en la versión 2.0')}
           >
@@ -92,75 +99,80 @@ export default function OwnerFlowScreen() {
 
   return (
     <ThemedView style={[styles.container, { paddingTop: insets.top }]}>
-      <View style={styles.header}>
-        <Pressable onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color={colors.primary} />
-        </Pressable>
-        <ThemedText type="title">Tu Local</ThemedText>
-        <View style={{ width: 24 }} />
-      </View>
-
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={[styles.infoBox, { backgroundColor: colors.secondary + '20' }]}>
-          <Ionicons name="information-circle" size={20} color={colors.primary} />
-          <ThemedText style={[styles.infoText, { color: colors.primary }]}>
-            Registra tu local para que miles de usuarios puedan visitarte.
-          </ThemedText>
-        </View>
-
-        <View style={styles.inputGroup}>
-          <ThemedText style={styles.label}>Nombre del Local</ThemedText>
-          <TextInput
-            placeholder="Ej: La Parrilla de Juan"
-            placeholderTextColor={colors.icon}
-            style={[styles.input, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.text }]}
-            value={form.name}
-            onChangeText={(t) => setForm({...form, name: t})}
-          />
-        </View>
-
-        <View style={styles.inputGroup}>
-          <ThemedText style={styles.label}>Descripción</ThemedText>
-          <TextInput
-            placeholder="Cuéntanos qué ofreces..."
-            placeholderTextColor={colors.icon}
-            multiline
-            numberOfLines={3}
-            style={[styles.input, styles.textArea, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.text }]}
-            value={form.description}
-            onChangeText={(t) => setForm({...form, description: t})}
-          />
-        </View>
-
-        <View style={styles.inputGroup}>
-          <ThemedText style={styles.label}>Ubicación / Dirección</ThemedText>
-          <TextInput
-            placeholder="Calle, Ciudad, Provincia"
-            placeholderTextColor={colors.icon}
-            style={[styles.input, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.text }]}
-            value={form.address}
-            onChangeText={(t) => setForm({...form, address: t})}
-          />
-        </View>
-
-        <ThemedText style={styles.label}>Fotos del Local y Comida</ThemedText>
-        <View style={styles.photoContainer}>
-          <Pressable 
-            onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
-            style={[styles.photoButton, { backgroundColor: colors.surface, borderColor: colors.secondary, borderStyle: 'dashed' }]}
-          >
-            <Ionicons name="camera" size={30} color={colors.primary} />
-            <ThemedText style={{ color: colors.primary, fontSize: 12 }}>Añadir Foto</ThemedText>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <View style={styles.header}>
+          <Pressable onPress={() => router.back()}>
+            <Ionicons name="arrow-back" size={24} color={colors.primary} />
           </Pressable>
+          <ThemedText type="title">Tu Local</ThemedText>
+          <View style={{ width: 24 }} />
         </View>
 
-        <Pressable 
-          style={[styles.submitButton, { backgroundColor: colors.primary }]}
-          onPress={handleRegister}
-        >
-          <ThemedText style={styles.submitButtonText}>Guardar y Publicar</ThemedText>
-        </Pressable>
-      </ScrollView>
+        <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
+          <View style={[styles.infoBox, { backgroundColor: colors.secondary + '20' }]}>
+            <Ionicons name="information-circle" size={20} color={colors.primary} />
+            <ThemedText style={[styles.infoText, { color: colors.primary }]}>
+              Registra tu local para que miles de usuarios puedan visitarte.
+            </ThemedText>
+          </View>
+
+          <View style={styles.inputGroup}>
+            <ThemedText style={styles.label}>Nombre del Local</ThemedText>
+            <TextInput
+              placeholder="Ej: La Parrilla de Juan"
+              placeholderTextColor={colors.icon}
+              style={[styles.input, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.text }]}
+              value={form.name}
+              onChangeText={(t) => setForm({ ...form, name: t })}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <ThemedText style={styles.label}>Descripción</ThemedText>
+            <TextInput
+              placeholder="Cuéntanos qué ofreces..."
+              placeholderTextColor={colors.icon}
+              multiline
+              numberOfLines={3}
+              style={[styles.input, styles.textArea, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.text }]}
+              value={form.description}
+              onChangeText={(t) => setForm({ ...form, description: t })}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <ThemedText style={styles.label}>Ubicación / Dirección</ThemedText>
+            <TextInput
+              placeholder="Calle, Ciudad, Provincia"
+              placeholderTextColor={colors.icon}
+              style={[styles.input, { backgroundColor: colors.surface, borderColor: colors.border, color: colors.text }]}
+              value={form.address}
+              onChangeText={(t) => setForm({ ...form, address: t })}
+            />
+          </View>
+
+          <ThemedText style={styles.label}>Fotos del Local y Comida</ThemedText>
+          <View style={styles.photoContainer}>
+            <Pressable
+              onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+              style={[styles.photoButton, { backgroundColor: colors.surface, borderColor: colors.secondary, borderStyle: 'dashed' }]}
+            >
+              <Ionicons name="camera" size={30} color={colors.primary} />
+              <ThemedText style={{ color: colors.primary, fontSize: 12 }}>Añadir Foto</ThemedText>
+            </Pressable>
+          </View>
+
+          <Pressable
+            style={[styles.submitButton, { backgroundColor: colors.primary }]}
+            onPress={handleRegister}
+          >
+            <ThemedText style={styles.submitButtonText}>Guardar y Publicar</ThemedText>
+          </Pressable>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </ThemedView>
   );
 }

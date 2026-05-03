@@ -30,12 +30,23 @@ export default function HomeScreen() {
 
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status === 'granted') {
-        let location = await Location.getCurrentPositionAsync({});
-        setUserLocation(location);
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status === 'granted') {
+          // Verificamos si los servicios están activados antes de pedir posición
+          const enabled = await Location.hasServicesEnabledAsync();
+          if (enabled) {
+            let location = await Location.getCurrentPositionAsync({
+              accuracy: Location.Accuracy.Balanced,
+            });
+            setUserLocation(location);
+          }
+        }
+      } catch (error) {
+        console.warn('Error al obtener la ubicación:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     })();
   }, []);
 
@@ -62,23 +73,8 @@ export default function HomeScreen() {
   return (
     <ThemedView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Header con Perfil y Buscador */}
-        <View style={[styles.topHeader, { paddingTop: insets.top + 10 }]}>
-          <View>
-            <ThemedText style={styles.greeting}>Hola, ¿qué comeremos?</ThemedText>
-            <ThemedText type="title" style={{ color: colors.primary }}>Donde Comer+</ThemedText>
-          </View>
-          <Pressable 
-            style={[styles.ownerToggle, { backgroundColor: colors.secondary }]}
-            onPress={() => {
-              Haptics.selectionAsync();
-              router.push('/owner-flow');
-            }}
-          >
-            <Ionicons name="restaurant" size={20} color={colors.primary} />
-            <ThemedText style={[styles.ownerToggleText, { color: colors.primary }]}>Dueño</ThemedText>
-          </Pressable>
-        </View>
+        {/* Header Personalizado (Integrado con el Drawer) */}
+        <View style={styles.headerSpacer} />
 
         <View style={styles.searchSection}>
           <View style={[styles.searchBar, { backgroundColor: colors.surface, borderColor: colors.secondary }]}>
@@ -188,7 +184,7 @@ export default function HomeScreen() {
                 <Image source={{ uri: local.images[0] }} style={styles.featuredImage} />
                 <View style={styles.featuredInfo}>
                   <View style={styles.nameRow}>
-                    <ThemedText type="defaultSemiBold" style={styles.localName}>{local.name}</ThemedText>
+                    <ThemedText type="defaultSemiBold" style={styles.localName} numberOfLines={1}>{local.name}</ThemedText>
                     <View style={[styles.ratingBadge, { backgroundColor: colors.secondary }]}>
                       <Ionicons name="star" size={12} color={colors.primary} />
                       <ThemedText style={[styles.ratingText, { color: colors.primary }]}>{local.rating}</ThemedText>
@@ -244,6 +240,9 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 14,
     opacity: 0.7,
+  },
+  headerSpacer: {
+    height: 10,
   },
   ownerToggle: {
     flexDirection: 'row',
@@ -377,6 +376,8 @@ const styles = StyleSheet.create({
   },
   localName: {
     fontSize: 18,
+    flex: 1,
+    marginRight: 10,
   },
   ratingBadge: {
     flexDirection: 'row',

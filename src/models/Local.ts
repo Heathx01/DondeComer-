@@ -37,4 +37,7 @@ export interface Local {
   reviews: Review[];
   isPromoted?: boolean;
   phoneNumber?: string;
+  hasReservations?: boolean;
+  hasPreOrder?: boolean;
+  reservationPolicy?: string;
 }

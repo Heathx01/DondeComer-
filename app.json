@@ -9,10 +9,17 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Donde Comer+ necesita tu ubicación para mostrarte los locales más cercanos y calcular la distancia."
+      }
     },
     "android": {
       "package": "com.dondecomer.app",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ],
       "config": {
         "googleMaps": {
           "apiKey": "REEMPLAZA_CON_TU_API_KEY"

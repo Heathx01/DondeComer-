@@ -28,7 +28,10 @@ const MOCK_LOCALS: Local[] = [
       { id: 'r2', userId: 'u2', userName: 'Maria Garcia', rating: 4, comment: 'Muy rica, tardaron un poco.', date: '2024-04-28' }
     ],
     isPromoted: true,
-    phoneNumber: '+5491112345678'
+    phoneNumber: '+5491112345678',
+    hasReservations: true,
+    hasPreOrder: true,
+    reservationPolicy: 'Reserva con 2 horas de anticipación.'
   },
   {
     id: '2',
@@ -49,7 +52,9 @@ const MOCK_LOCALS: Local[] = [
     ownerId: 'owner2',
     hours: { open: '11:00', close: '23:00' },
     reviews: [],
-    phoneNumber: '+5491187654321'
+    phoneNumber: '+5491187654321',
+    hasReservations: false,
+    hasPreOrder: true
   },
   {
     id: '3',
@@ -65,7 +70,9 @@ const MOCK_LOCALS: Local[] = [
     ownerId: 'owner3',
     hours: { open: '19:00', close: '00:00' },
     reviews: [],
-    isPromoted: true
+    isPromoted: true,
+    hasReservations: true,
+    hasPreOrder: false
   },
   {
     id: '4',
@@ -80,7 +87,9 @@ const MOCK_LOCALS: Local[] = [
     categories: ['Tacos', 'Mexican'],
     ownerId: 'owner4',
     hours: { open: '09:00', close: '18:00' },
-    reviews: []
+    reviews: [],
+    hasReservations: true,
+    hasPreOrder: true
   }
 ];
 
@@ -92,11 +101,11 @@ export const LocalsController = {
   getPromotedLocals: (): Local[] => {
     return MOCK_LOCALS.filter(l => l.isPromoted);
   },
-  
+
   searchLocals: (query: string, filters?: { minRating?: number, onlyOpen?: boolean }): Local[] => {
     const lowerQuery = query.toLowerCase();
-    let filtered = MOCK_LOCALS.filter(local => 
-      local.name.toLowerCase().includes(lowerQuery) || 
+    let filtered = MOCK_LOCALS.filter(local =>
+      local.name.toLowerCase().includes(lowerQuery) ||
       local.categories.some(cat => cat.toLowerCase().includes(lowerQuery))
     );
 
@@ -126,13 +135,13 @@ export const LocalsController = {
   isLocalOpen: (local: Local): boolean => {
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes();
-    
+
     const [openH, openM] = local.hours.open.split(':').map(Number);
     const [closeH, closeM] = local.hours.close.split(':').map(Number);
-    
+
     const openTime = openH * 60 + openM;
     let closeTime = closeH * 60 + closeM;
-    
+
     // Si el cierre es después de medianoche
     if (closeTime < openTime) {
       // Si la hora actual es antes de medianoche (por ejemplo, 22:00)
@@ -145,9 +154,25 @@ export const LocalsController = {
       }
       return false;
     }
-    
+
     return currentTime >= openTime && currentTime <= closeTime;
+  },
+
+  addReview: (localId: string, rating: number, comment: string): void => {
+    const local = MOCK_LOCALS.find(l => l.id === localId);
+    if (local) {
+      const newReview = {
+        id: Math.random().toString(36).substring(2, 9),
+        userId: 'current_user',
+        userName: 'Tú', // En una app real vendría del contexto de usuario
+        rating,
+        comment,
+        date: new Date().toISOString().split('T')[0]
+      };
+      local.reviews.unshift(newReview);
+      // Recalcular promedio (Lógica básica para la demo)
+      local.rating = Number((((local.rating * local.reviewCount) + rating) / (local.reviewCount + 1)).toFixed(1));
+      local.reviewCount += 1;
+    }
   }
 };
-
-
