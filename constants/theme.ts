@@ -5,36 +5,36 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#D00000'; // Rojo Intenso
-const tintColorDark = '#FFD700'; // Amarillo Oro
+const tintColorLight = '#D62828'; // Red
+const tintColorDark = '#F7B733'; // Yellow
 
 export const Colors = {
   light: {
-    text: '#1A1A1A',
-    background: '#FFFFFF',
+    text: '#121212',
+    background: '#FDFCF8', // Cálido, "no tan blanco"
     tint: tintColorLight,
-    icon: '#7A7A7A',
-    tabIconDefault: '#7A7A7A',
+    icon: '#666666',
+    tabIconDefault: '#666666',
     tabIconSelected: tintColorLight,
-    surface: '#FFF9E6', // Fondo amarillento suave
-    border: '#FFD700',
-    primary: '#D00000', // Rojo
-    secondary: '#FFC107', // Amarillo
-    accent: '#FFD700',
-    error: '#E63946',
+    surface: '#FFFFFF', 
+    border: '#EAEAEA',
+    primary: '#D62828', // Rojo Premium
+    secondary: '#F7B733', // Amarillo Dorado
+    accent: '#FCBF49',
+    error: '#D62828',
   },
   dark: {
     text: '#F8F9FA',
-    background: '#0F0F0F',
+    background: '#121212', // Carbón profundo, no negro puro
     tint: tintColorDark,
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
-    surface: '#1A1A1A',
-    border: '#D00000',
-    primary: '#FFD700',
-    secondary: '#D00000',
-    accent: '#FFC107',
+    surface: '#1E1E1E',
+    border: '#333333',
+    primary: '#F7B733',
+    secondary: '#D62828',
+    accent: '#FCBF49',
     error: '#FF4D5B',
   },
 };
