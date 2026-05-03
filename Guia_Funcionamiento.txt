@@ -63,9 +63,36 @@ Panel de Gestión:
 * Reseñas Recientes: Vista previa de los últimos comentarios recibidos para seguimiento.
 * Gestión de Menú: Acceso a la edición de la carta (disponible en futuras actualizaciones).
 
+5. MENÚ LATERAL (DRAWER)
+Nueva estructura de navegación premium que centraliza el acceso a áreas personales.
+
+Elementos y Funcionalidad:
+* Panel de Usuario: Visualización de nombre y avatar.
+* Mis Reservas: Historial y gestión de mesas reservadas.
+* Mis Pedidos: Seguimiento de órdenes realizadas con anticipación.
+* Configuración: Ajustes de la aplicación y preferencias de usuario.
+
+6. SISTEMA DE RESERVAS Y PEDIDOS
+Integración de servicios interactivos para mejorar la experiencia del comensal.
+
+* Reservas: 
+    - Selección de número de comensales.
+    - Confirmación instantánea con feedback háptico.
+    - Alertas de confirmación integradas.
+* Pedidos "On the Way":
+    - Selección de platos directamente desde el menú del local.
+    - Cálculo de total estimado.
+    - Notificación al local para preparación inmediata.
+
+7. PERSONALIZACIÓN Y AJUSTES
+Control total sobre la experiencia de uso.
+
+* Selector de Apariencia: Posibilidad de forzar Modo Claro, Modo Oscuro o seguir la configuración del Sistema.
+* Gestión de Datos: Limpieza de historial de búsqueda y gestión de favoritos.
+
 CARACTERÍSTICAS TÉCNICAS DESTACADAS
+* Navegación Premium iOS: Encabezados centrados, botones de acción rápida y transiciones suaves.
 * Geolocalización Real: Cálculo de distancias basado en el sensor GPS del dispositivo.
-* Feedback Háptico: Vibraciones sutiles al interactuar con botones y filtros para una sensación más física.
-* Modo Oscuro/Claro: Adaptación automática a las preferencias del sistema del usuario.
-* Estado Persistente: Guardado local de favoritos e historial de búsqueda.
+* Feedback Háptico: Vibraciones sutiles al interactuar con botones y filtros.
+* Estado Persistente: Guardado local de favoritos, historial y preferencia de tema mediante AsyncStorage.
 * Integración con Firebase: Configurado para escalabilidad en la nube.

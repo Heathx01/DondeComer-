@@ -36,7 +36,7 @@ function CustomDrawerContent(props: any) {
       
       <View style={[styles.drawerFooter, { paddingBottom: insets.bottom + 20 }]}>
         <View style={styles.drawerDivider} />
-        <ThemedText style={styles.footerText}>Donde Comer+ v1.1.0</ThemedText>
+        <ThemedText style={styles.footerText}>Donde Comer+ v1.2.0</ThemedText>
       </View>
     </ThemedView>
   );
